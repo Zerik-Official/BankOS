@@ -1,6 +1,33 @@
-# Ide
+# IDE
 .vscode/*
 
 # Python
-__pycache__/*
-.pyc
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Environment
+.env
+
+# Local database and runtime data
+data/
+*.db
+*.sqlite3
+logs/
+
+# Tests and tools
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# MkDocs build output
+site/
+
+# OS
+.DS_Store
+Thumbs.db
