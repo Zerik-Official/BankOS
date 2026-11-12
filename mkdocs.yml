@@ -1,0 +1,88 @@
+site_name: BankOS
+site_description: Plataforma bancaria multi-tenant como servicio
+site_url: https://zerik-official.github.io/BankOS/docs/
+docs_dir: docs
+exclude_docs: |
+  README.md
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: folder
+      languages:
+        - locale: es
+          default: true
+          name: Español
+          build: true
+        - locale: en
+          name: English
+          build: true
+          nav_translations:
+            Inicio: Home
+            Primeros pasos: Getting started
+            Configuración: Configuration
+            Autenticación: Authentication
+            Multi-tenencia: Multi-tenancy
+            Cuentas: Accounts
+            Operaciones: Operations
+            Idempotencia: Idempotency
+            Transferencias y tasas: Transfers and rates
+            Auditoría: Audit
+            Webhooks: Webhooks
+            Errores: Errors
+            Despliegue: Deployment
+
+nav:
+  - Inicio: index.md
+  - Primeros pasos: getting-started.md
+  - Configuración: configuration.md
+  - Autenticación: authentication.md
+  - Multi-tenencia: multi-tenancy.md
+  - Cuentas: accounts.md
+  - Operaciones: operations.md
+  - Idempotencia: idempotency.md
+  - Transferencias y tasas: transfers.md
+  - Auditoría: audit.md
+  - Webhooks: webhooks.md
+  - Errores: errors.md
+  - Despliegue: deployment.md
+
+markdown_extensions:
+  - admonition
+  - def_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
