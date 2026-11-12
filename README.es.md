@@ -33,6 +33,8 @@ BankOS es una plataforma bancaria multi-tenant como servicio. Cada institución 
 | Fiabilidad | Claves de idempotencia, correlation IDs, rate limiting en memoria | Reintentos seguros, trazabilidad y protección de peticiones |
 | Entrega | Docker Compose, GitHub Actions, MkDocs Material | Stack local, CI y documentación bilingüe |
 
+Consulta la [documentación técnica](docs/README.md) para más detalles.
+
 ## Estructura del repositorio
 
 ```text
@@ -66,6 +68,8 @@ bankos/
 - curl (opcional, para los ejemplos)
 
 ## Puesta en marcha
+
+La [guía de primeros pasos](docs/es/getting-started.md) cubre la instalación, los datos demo y la configuración local. Inicio rápido:
 
 1. Clona el repositorio y crea el entorno virtual:
 
@@ -102,77 +106,6 @@ bankos/
 
 El seed crea el tenant `acme` (USD, comisión porcentual 2 %) y el tenant `globex` (EUR, comisión fija 1.50), con un administrador, dos clientes y dos cuentas por cliente. Imprime las credenciales demo y los números de cuenta.
 
-## Variables de entorno
-
-| Variable | Por defecto | Descripción |
-| --- | --- | --- |
-| `APP_NAME` | `BankOS API` | Nombre de la API y metadatos de OpenAPI |
-| `ENVIRONMENT` | `local` | Entorno de ejecución |
-| `DOCS_ENABLED` | `true` | Expone `/docs`, `/redoc` y `/openapi.json` |
-| `LOG_LEVEL` | `INFO` | Nivel mínimo de logging |
-| `DATABASE_URL` | `sqlite:///./data/bankos.db` | URL de base de datos de SQLAlchemy |
-| `JWT_SECRET_KEY` | Valor inseguro de desarrollo | Clave HMAC para firmar JWT; debe cambiarse |
-| `JWT_ALGORITHM` | `HS256` | Algoritmo de firma del JWT |
-| `JWT_EXPIRES_MINUTES` | `60` | Vida del token de acceso |
-| `CORS_ORIGINS` | `http://localhost:8000,http://localhost:5173` | Orígenes permitidos |
-| `RATE_LIMIT_AUTH_PER_MINUTE` | `10` | Intentos de login por IP y minuto |
-| `RATE_LIMIT_FINANCIAL_PER_MINUTE` | `30` | Operaciones financieras por usuario y tenant y minuto |
-| `RATE_LIMIT_IP_PER_MINUTE` | `120` | Peticiones globales por IP y minuto |
-| `WEBHOOK_TIMEOUT_SECONDS` | `5` | Timeout en segundos de cada intento de entrega de webhooks; debe ser mayor que 0 |
-
-## Resumen de la API
-
-Todas las respuestas usan un sobre estándar con `success`, `code`, `message`, `data` y `correlation_id`. Los errores usan `success: false`, `code`, `message`, `details` y `correlation_id`.
-
-| Método | Ruta | Propósito |
-| --- | --- | --- |
-| `GET` | `/` | Metadatos del servicio |
-| `GET` | `/health` | Liveness |
-| `GET` | `/health/ready` | Readiness |
-| `POST` | `/api/v1/tenants` | Registrar un tenant y su administrador |
-| `GET` | `/api/v1/tenants/me` | Leer la configuración del tenant actual |
-| `PATCH` | `/api/v1/tenants/me` | Actualizar la configuración del tenant actual |
-| `GET` | `/api/v1/tenants/me/exchange-rates` | Listar las tasas estáticas |
-| `PUT` | `/api/v1/tenants/me/exchange-rates` | Reemplazar las tasas estáticas |
-| `POST` | `/api/v1/auth/login` | Iniciar sesión dentro de un tenant |
-| `GET` | `/api/v1/auth/me` | Leer el perfil autenticado |
-| `POST` | `/api/v1/users` | Crear un usuario |
-| `GET` | `/api/v1/users` | Listar usuarios |
-| `GET` | `/api/v1/users/{user_id}` | Leer un usuario |
-| `PATCH` | `/api/v1/users/{user_id}` | Actualizar un usuario |
-| `POST` | `/api/v1/accounts` | Abrir una cuenta |
-| `GET` | `/api/v1/accounts` | Listar cuentas |
-| `GET` | `/api/v1/accounts/{account_id}` | Leer una cuenta |
-| `PATCH` | `/api/v1/accounts/{account_id}/status` | Cambiar el estado de la cuenta |
-| `POST` | `/api/v1/accounts/{account_id}/deposits` | Depositar dinero |
-| `POST` | `/api/v1/accounts/{account_id}/withdrawals` | Retirar dinero |
-| `POST` | `/api/v1/transfers/quote` | Cotizar una transferencia |
-| `POST` | `/api/v1/transfers` | Ejecutar una transferencia |
-| `GET` | `/api/v1/transactions` | Listar el historial de transacciones |
-| `GET` | `/api/v1/transactions/{transaction_id}` | Leer una transacción |
-| `GET` | `/api/v1/audit-logs` | Leer la auditoría administrativa |
-
-Los depósitos, retiros y transferencias exigen la cabecera `Idempotency-Key` con un UUID. Los reintentos devuelven la respuesta original con `X-Idempotent-Replayed: true`.
-
-## Tests y lint
-
-```bash
-.venv/Scripts/python -m pytest
-.venv/Scripts/python -m ruff check .
-.venv/Scripts/python -m ruff format --check .
-```
-
-La suite cubre autenticación, aislamiento por tenant, comisiones, replay de idempotencia, conflictos en progreso, liberación de clave tras fallos de negocio, transferencias multimoneda y cotizaciones.
-
-## Docker
-
-```bash
-cp .env.example .env
-docker compose up --build
-```
-
-La API escucha en el puerto `8000`. Los datos SQLite se guardan en el volumen `bankos-data`, en `/app/data/bankos.db`. Consulta la [guía de despliegue](docs/es/deployment.md) para las limitaciones operativas.
-
 ## Documentación
 
 La documentación se construye con MkDocs Material en inglés y español y se publica en <https://zerik-official.github.io/BankOS/docs/>. Para servirla en local:
@@ -184,15 +117,3 @@ La documentación se construye con MkDocs Material en inglés y español y se pu
 
 Empieza por la [documentación en español](docs/es/index.md) o la [documentación en inglés](docs/en/index.md).
 
-## Limitaciones
-
-- SQLite es la única base soportada; no hay configuración para PostgreSQL.
-- El esquema se crea con `create_all`; no se usa Alembic.
-- El rate limiting y el lock de idempotencia viven en memoria y asumen un worker.
-- No hay refresh tokens ni revocación de sesiones.
-- Los webhooks son de mejor esfuerzo: sin HMAC, sin cola persistente y sin log de entregas.
-- El frontend y la aplicación móvil no forman parte de este repositorio.
-
-## Capturas
-
-Las imágenes de vista previa se esperan en `.github/preview.en.png` y `.github/preview.es.png`. El mantenedor añadirá las capturas reales.
