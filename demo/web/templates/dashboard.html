@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% from "_movements.html" import movement_list %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+  <section class="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl p-8 text-white"
+           style="background:linear-gradient(120deg,#2A0B55,#6A00D4)">
+    <div>
+      <h1 class="text-3xl font-bold">Hola, {{ principal.full_name }}</h1>
+      <p class="mt-1 text-white/80">Gestiona tus productos, realiza transferencias y consulta tus movimientos.</p>
+    </div>
+  </section>
+
+  <div class="grid gap-6 lg:grid-cols-3">
+    <div class="space-y-8 lg:col-span-2">
+      <section aria-labelledby="accounts-title">
+        <h2 id="accounts-title" class="mb-3 text-xl font-bold">Mis productos</h2>
+        {% if accounts %}
+          <div class="grid gap-4 sm:grid-cols-2">
+            {% for account in accounts %}
+              <article class="flex flex-col gap-3 rounded-2xl bg-white p-5 shadow-sm">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-violet-100">
+                  <i class="fa-solid fa-wallet" style="color:#6A00D4" aria-hidden="true"></i>
+                </span>
+                <div class="min-w-0 flex-1">
+                  <p class="font-semibold">{{ account.currency | account_name }}</p>
+                  <p class="text-sm text-slate-500">{{ account.account_number | masked_number }}</p>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500">Saldo disponible</p>
+                  <p class="text-lg font-bold">{{ account.balance | money }} {{ account.currency }}</p>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="rounded-2xl bg-white p-6 text-slate-500 shadow-sm">Todavía no tienes cuentas.</p>
+        {% endif %}
+      </section>
+
+      <section aria-labelledby="recent-title">
+        <div class="mb-3 flex items-center justify-between">
+          <h2 id="recent-title" class="text-xl font-bold">Últimos movimientos</h2>
+          <a href="/transactions" class="text-sm font-semibold hover:underline" style="color:#6A00D4">Ver todos los movimientos →</a>
+        </div>
+        {{ movement_list(rows) }}
+      </section>
+    </div>
+
+    <aside aria-labelledby="quick-title" class="h-fit rounded-2xl bg-white p-5 shadow-sm">
+      <h2 id="quick-title" class="mb-4 text-xl font-bold">Operaciones rápidas</h2>
+      <div class="grid grid-cols-2 gap-3">
+        <a href="/transfer" class="flex flex-col items-center gap-2 rounded-xl bg-violet-50 p-4 text-center text-sm font-semibold hover:bg-violet-100">
+          <i class="fa-solid fa-right-left text-xl" style="color:#6A00D4" aria-hidden="true"></i>Transferir
+        </a>
+        <a href="/deposit" class="flex flex-col items-center gap-2 rounded-xl bg-violet-50 p-4 text-center text-sm font-semibold hover:bg-violet-100">
+          <i class="fa-solid fa-circle-plus text-xl" style="color:#6A00D4" aria-hidden="true"></i>Depositar
+        </a>
+        <a href="/withdraw" class="flex flex-col items-center gap-2 rounded-xl bg-violet-50 p-4 text-center text-sm font-semibold hover:bg-violet-100">
+          <i class="fa-solid fa-circle-minus text-xl" style="color:#6A00D4" aria-hidden="true"></i>Retirar
+        </a>
+        <a href="/transactions" class="flex flex-col items-center gap-2 rounded-xl bg-violet-50 p-4 text-center text-sm font-semibold hover:bg-violet-100">
+          <i class="fa-solid fa-receipt text-xl" style="color:#6A00D4" aria-hidden="true"></i>Movimientos
+        </a>
+      </div>
+    </aside>
+  </div>
+{% endblock %}

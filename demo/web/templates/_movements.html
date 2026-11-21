@@ -1,0 +1,37 @@
+{# Shared list of movements. Each row is a dict with `tx` and `incoming`. #}
+{% macro movement_list(rows) %}
+  {% if rows %}
+    <ul class="divide-y divide-slate-200 rounded-xl bg-white shadow-sm">
+      {% for row in rows %}
+        {% set tx = row.tx %}
+        <li class="flex items-center gap-4 px-4 py-3">
+          <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full
+                       {% if tx.status == 'error' %}bg-slate-200 text-slate-500
+                       {% elif row.incoming %}bg-emerald-100 text-emerald-700
+                       {% else %}bg-indigo-100 text-indigo-700{% endif %}">
+            <i class="fa-solid {% if tx.status == 'error' %}fa-circle-exclamation
+                               {% elif tx.type == 'deposit' %}fa-arrow-down
+                               {% elif tx.type == 'withdrawal' %}fa-arrow-up
+                               {% else %}fa-right-left{% endif %}" aria-hidden="true"></i>
+          </span>
+          <div class="min-w-0 flex-1">
+            <p class="font-medium">
+              {{ tx.type | transaction_label }}{% if tx.status == 'error' %} rechazado{% endif %}
+            </p>
+            <p class="truncate text-sm text-slate-500">
+              {% if tx.description %}{{ tx.description }} · {% endif %}{{ tx.created_at | datetime_es }}
+            </p>
+          </div>
+          <p class="whitespace-nowrap font-semibold
+                    {% if tx.status == 'error' %}text-slate-500
+                    {% elif row.incoming %}text-emerald-700
+                    {% else %}text-rose-700{% endif %}">
+            {% if tx.status != 'error' %}{{ '+' if row.incoming else '-' }}{% endif %}{{ tx.amount | money }} {{ tx.currency }}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="rounded-xl bg-white p-6 text-center text-slate-500 shadow-sm">Todavía no tienes movimientos.</p>
+  {% endif %}
+{% endmacro %}

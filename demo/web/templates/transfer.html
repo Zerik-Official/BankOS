@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Transferir{% endblock %}
+{% block content %}
+  <div class="mx-auto max-w-md rounded-2xl bg-white p-6 shadow-md">
+    <h1 class="mb-5 text-2xl font-semibold">Transferir</h1>
+
+    {% if error %}
+      <div class="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-rose-800" role="alert">
+        {{ error }}
+      </div>
+    {% endif %}
+
+    {% if accounts %}
+      <form method="post" action="/transfer" class="space-y-4">
+        <input type="hidden" name="idempotency_key" value="{{ idempotency_key }}">
+
+        <div>
+          <label for="source_account_id" class="mb-1 block text-sm font-medium">Cuenta de origen</label>
+          <select id="source_account_id" name="source_account_id" required
+                  class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200">
+            {% for account in accounts %}
+              <option value="{{ account.id }}" {% if form.source_account_id == account.id|string %}selected{% endif %}>
+                {{ account.account_number }} · {{ account.balance | money }} {{ account.currency }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label for="target_account_number" class="mb-1 block text-sm font-medium">Número de cuenta destino</label>
+          <input id="target_account_number" name="target_account_number" type="text" inputmode="numeric" required minlength="4" maxlength="24"
+                 value="{{ form.target_account_number or '' }}"
+                 class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200">
+        </div>
+
+        <div>
+          <label for="amount" class="mb-1 block text-sm font-medium">Importe</label>
+          <input id="amount" name="amount" type="text" inputmode="decimal" required placeholder="0.00"
+                 value="{{ form.amount or '' }}"
+                 class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200">
+        </div>
+
+        <div>
+          <label for="description" class="mb-1 block text-sm font-medium">Descripción (opcional)</label>
+          <input id="description" name="description" type="text" maxlength="255"
+                 value="{{ form.description or '' }}"
+                 class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200">
+        </div>
+
+        <button type="submit" name="action" value="quote"
+                class="w-full rounded-lg border border-indigo-700 px-4 py-2.5 font-medium text-indigo-700 hover:bg-indigo-50">
+          <i class="fa-solid fa-calculator mr-1" aria-hidden="true"></i>Calcular comisión
+        </button>
+      </form>
+
+      {% if quote %}
+        <section class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4" aria-labelledby="quote-title">
+          <h2 id="quote-title" class="mb-3 font-semibold">Resumen</h2>
+          <dl class="space-y-2 text-sm">
+            <div class="flex justify-between"><dt>Importe</dt><dd class="font-medium">{{ quote.amount | money }} {{ quote.source_currency }}</dd></div>
+            <div class="flex justify-between"><dt>Comisión</dt><dd class="font-medium">{{ quote.fee | money }} {{ quote.source_currency }}</dd></div>
+            <div class="flex justify-between"><dt>Total a cargar</dt><dd class="font-medium">{{ quote.total_debit | money }} {{ quote.source_currency }}</dd></div>
+            <div class="flex justify-between"><dt>Tipo de cambio</dt><dd class="font-medium">{{ quote.exchange_rate }}</dd></div>
+            <div class="flex justify-between"><dt>Importe recibido</dt><dd class="font-medium">{{ quote.converted_amount | money }} {{ quote.target_currency }}</dd></div>
+          </dl>
+          <form method="post" action="/transfer" class="mt-4">
+            <input type="hidden" name="idempotency_key" value="{{ idempotency_key }}">
+            <input type="hidden" name="source_account_id" value="{{ form.source_account_id }}">
+            <input type="hidden" name="target_account_number" value="{{ form.target_account_number }}">
+            <input type="hidden" name="amount" value="{{ form.amount }}">
+            <input type="hidden" name="description" value="{{ form.description }}">
+            <button type="submit" name="action" value="confirm"
+                    class="w-full rounded-lg bg-indigo-700 px-4 py-2.5 font-medium text-white hover:bg-indigo-800">
+              Confirmar transferencia
+            </button>
+          </form>
+        </section>
+      {% endif %}
+    {% else %}
+      <p class="text-slate-500">No tienes cuentas activas para transferir.</p>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% from "_movements.html" import movement_list %}
+{% block title %}Movimientos{% endblock %}
+{% block content %}
+  <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
+    <h1 class="text-2xl font-semibold">Movimientos</h1>
+    <form method="get" action="/transactions" class="flex items-center gap-2 text-sm">
+      <label for="type" class="font-medium">Tipo</label>
+      <select id="type" name="type" onchange="this.form.submit()"
+              class="rounded-lg border border-slate-300 bg-white px-3 py-1.5">
+        <option value="" {% if not kind %}selected{% endif %}>Todos</option>
+        <option value="deposit" {% if kind == 'deposit' %}selected{% endif %}>Depósitos</option>
+        <option value="withdrawal" {% if kind == 'withdrawal' %}selected{% endif %}>Retiros</option>
+        <option value="transfer" {% if kind == 'transfer' %}selected{% endif %}>Transferencias</option>
+      </select>
+      <noscript><button type="submit" class="rounded-lg bg-indigo-700 px-3 py-1.5 text-white">Filtrar</button></noscript>
+    </form>
+  </div>
+
+  {{ movement_list(rows) }}
+
+  <nav class="mt-4 flex items-center justify-between text-sm" aria-label="Paginación">
+    {% if offset > 0 %}
+      <a href="/transactions?offset={{ [offset - page_size, 0] | max }}&type={{ kind }}" class="font-medium text-indigo-700 hover:underline">
+        <i class="fa-solid fa-chevron-left mr-1" aria-hidden="true"></i>Anteriores
+      </a>
+    {% else %}
+      <span></span>
+    {% endif %}
+    <span class="text-slate-500">{{ offset + 1 if total else 0 }}–{{ [offset + page_size, total] | min }} de {{ total }}</span>
+    {% if offset + page_size < total %}
+      <a href="/transactions?offset={{ offset + page_size }}&type={{ kind }}" class="font-medium text-indigo-700 hover:underline">
+        Siguientes<i class="fa-solid fa-chevron-right ml-1" aria-hidden="true"></i>
+      </a>
+    {% else %}
+      <span></span>
+    {% endif %}
+  </nav>
+{% endblock %}
