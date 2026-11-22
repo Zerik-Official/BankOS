@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BankOS · Tu banco, siempre contigo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  </head>
+  <body class="min-h-screen bg-white" style="color:#2A0B55;font-family:system-ui,Segoe UI,Roboto,sans-serif">
+    <header class="flex items-center justify-between bg-white px-8 py-4 shadow-sm">
+      <a href="/" class="flex items-center text-2xl font-bold" style="color:#2A0B55"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" style="display:inline-block;vertical-align:middle;margin-right:8px"><path fill="#6A00D4" d="M12 0C12.8 7.2 16.8 11.2 24 12 16.8 12.8 12.8 16.8 12 24 11.2 16.8 7.2 12.8 0 12 7.2 11.2 11.2 7.2 12 0Z"/></svg>BankOS</a>
+      <nav class="flex items-center gap-8 text-base font-medium">
+        <a href="/" class="border-b-2 pb-1" style="border-color:#6A00D4;color:#6A00D4">Inicio</a>
+        <a href="/login" class="hover:underline">Acceso clientes</a>
+        <a href="/login" class="rounded-lg px-5 py-2.5 font-semibold text-white" style="background:#6A00D4">Iniciar sesión</a>
+      </nav>
+    </header>
+
+    <section class="relative flex min-h-[520px] items-center overflow-hidden bg-cover bg-center px-8 py-16"
+             style="background-image:linear-gradient(90deg,rgba(246,242,255,.97) 0%,rgba(246,242,255,.9) 35%,rgba(246,242,255,.25) 65%,rgba(246,242,255,0) 80%),url('/static/landing-photo.webp')">
+      <div class="max-w-xl">
+        <h1 class="text-5xl font-extrabold leading-tight" style="color:#2A0B55">Tu banco, siempre contigo</h1>
+        <p class="mt-5 text-lg text-slate-700">Gestiona tus cuentas, realiza transferencias y consulta tus movimientos de forma segura y sencilla.</p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="/login" class="rounded-lg px-7 py-3.5 text-lg font-semibold text-white shadow-md" style="background:#6A00D4">Iniciar sesión</a>
+          <a href="#servicios" class="rounded-lg border-2 bg-white/80 px-7 py-3.5 text-lg font-semibold" style="border-color:#6A00D4;color:#6A00D4">Conoce más</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="servicios" class="relative z-10 bg-white px-8 py-14">
+      <h2 class="mb-8 text-3xl font-bold" style="color:#2A0B55">Lo que puedes hacer</h2>
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <article class="rounded-2xl bg-white p-6 shadow-md ring-1 ring-violet-100">
+          <span class="mb-4 flex h-14 w-14 items-center justify-center rounded-xl" style="background:#EDE4FF"><i class="fa-regular fa-credit-card text-2xl" style="color:#6A00D4" aria-hidden="true"></i></span>
+          <h3 class="text-xl font-bold">Consultar cuentas</h3>
+          <p class="mt-2 text-slate-600">Revisa el saldo y el detalle de tus cuentas.</p>
+        </article>
+        <article class="rounded-2xl bg-white p-6 shadow-md ring-1 ring-violet-100">
+          <span class="mb-4 flex h-14 w-14 items-center justify-center rounded-xl" style="background:#EDE4FF"><i class="fa-solid fa-right-left text-2xl" style="color:#6A00D4" aria-hidden="true"></i></span>
+          <h3 class="text-xl font-bold">Transferir dinero</h3>
+          <p class="mt-2 text-slate-600">Envía dinero a otras cuentas de tu entidad.</p>
+        </article>
+        <article class="rounded-2xl bg-white p-6 shadow-md ring-1 ring-violet-100">
+          <span class="mb-4 flex h-14 w-14 items-center justify-center rounded-xl" style="background:#EDE4FF"><i class="fa-solid fa-list text-2xl" style="color:#6A00D4" aria-hidden="true"></i></span>
+          <h3 class="text-xl font-bold">Ver movimientos</h3>
+          <p class="mt-2 text-slate-600">Consulta el historial de tus operaciones.</p>
+        </article>
+        <article class="rounded-2xl bg-white p-6 shadow-md ring-1 ring-violet-100">
+          <span class="mb-4 flex h-14 w-14 items-center justify-center rounded-xl" style="background:#EDE4FF"><i class="fa-regular fa-user text-2xl" style="color:#6A00D4" aria-hidden="true"></i></span>
+          <h3 class="text-xl font-bold">Gestionar tu perfil</h3>
+          <p class="mt-2 text-slate-600">Revisa tus datos de acceso y de la entidad.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="mx-8 mb-14 grid gap-6 rounded-2xl px-8 py-8 md:grid-cols-3" style="background:#EDE4FF">
+      <div class="flex items-center gap-4"><i class="fa-solid fa-lock text-3xl" style="color:#6A00D4" aria-hidden="true"></i><div><p class="font-bold">Acceso seguro</p><p class="text-sm text-slate-600">Tu sesión se guarda en una cookie que el navegador no expone a scripts.</p></div></div>
+      <div class="flex items-center gap-4"><i class="fa-solid fa-bolt text-3xl" style="color:#6A00D4" aria-hidden="true"></i><div><p class="font-bold">Operaciones rápidas</p><p class="text-sm text-slate-600">Realiza tus gestiones en pocos pasos.</p></div></div>
+      <div class="flex items-center gap-4"><i class="fa-regular fa-clock text-3xl" style="color:#6A00D4" aria-hidden="true"></i><div><p class="font-bold">Accede cuando lo necesites</p><p class="text-sm text-slate-600">Consulta tu banca desde el navegador.</p></div></div>
+    </section>
+
+    <section class="px-8 py-16" style="background:#F6F2FF">
+      <h2 class="mb-3 text-3xl font-bold" style="color:#2A0B55">Cómo funciona</h2>
+      <p class="mb-10 max-w-2xl text-slate-600">Tu entidad te da acceso y desde ahí tienes todo en un solo lugar.</p>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="rounded-2xl bg-white p-7 shadow-md">
+          <span class="flex h-12 w-12 items-center justify-center rounded-full text-lg font-bold text-white" style="background:#6A00D4">1</span>
+          <h3 class="mt-4 text-xl font-bold">Recibe tus datos de acceso</h3>
+          <p class="mt-2 text-slate-600">Tu entidad crea tu usuario y tus cuentas. Entras con tu correo y tu contraseña.</p>
+        </div>
+        <div class="rounded-2xl bg-white p-7 shadow-md">
+          <span class="flex h-12 w-12 items-center justify-center rounded-full text-lg font-bold text-white" style="background:#6A00D4">2</span>
+          <h3 class="mt-4 text-xl font-bold">Revisa tus cuentas</h3>
+          <p class="mt-2 text-slate-600">Cada cuenta muestra su moneda, su saldo y sus últimos movimientos.</p>
+        </div>
+        <div class="rounded-2xl bg-white p-7 shadow-md">
+          <span class="flex h-12 w-12 items-center justify-center rounded-full text-lg font-bold text-white" style="background:#6A00D4">3</span>
+          <h3 class="mt-4 text-xl font-bold">Opera cuando quieras</h3>
+          <p class="mt-2 text-slate-600">Deposita, retira o transfiere. Antes de confirmar ves la comisión y lo que recibe el destinatario.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-8 py-16">
+      <h2 class="mb-3 text-3xl font-bold" style="color:#2A0B55">Operaciones con tus cuentas</h2>
+      <p class="mb-10 max-w-2xl text-slate-600">Todo lo que necesitas para mover tu dinero dentro de tu entidad.</p>
+      <div class="grid gap-6 md:grid-cols-2">
+        <div class="flex gap-5 rounded-2xl bg-white p-7 shadow-md ring-1 ring-violet-100">
+          <i class="fa-solid fa-arrow-down mt-1 text-2xl" style="color:#6A00D4" aria-hidden="true"></i>
+          <div><h3 class="text-xl font-bold">Depósitos y retiros</h3><p class="mt-2 text-slate-600">Ingresa o retira dinero de tus cuentas. Cada operación queda registrada en tu historial.</p></div>
+        </div>
+        <div class="flex gap-5 rounded-2xl bg-white p-7 shadow-md ring-1 ring-violet-100">
+          <i class="fa-solid fa-right-left mt-1 text-2xl" style="color:#6A00D4" aria-hidden="true"></i>
+          <div><h3 class="text-xl font-bold">Transferencias</h3><p class="mt-2 text-slate-600">Envía dinero entre tus cuentas o a cuentas de otros clientes de tu entidad, indicando el número de cuenta.</p></div>
+        </div>
+        <div class="flex gap-5 rounded-2xl bg-white p-7 shadow-md ring-1 ring-violet-100">
+          <i class="fa-solid fa-coins mt-1 text-2xl" style="color:#6A00D4" aria-hidden="true"></i>
+          <div><h3 class="text-xl font-bold">Cuentas en varias monedas</h3><p class="mt-2 text-slate-600">Si transfieres entre monedas distintas, la conversión usa las tasas que publica tu entidad y te la mostramos antes de confirmar.</p></div>
+        </div>
+        <div class="flex gap-5 rounded-2xl bg-white p-7 shadow-md ring-1 ring-violet-100">
+          <i class="fa-solid fa-clock-rotate-left mt-1 text-2xl" style="color:#6A00D4" aria-hidden="true"></i>
+          <div><h3 class="text-xl font-bold">Historial claro</h3><p class="mt-2 text-slate-600">Consulta tus movimientos, filtra por tipo y revisa los que fueron rechazados sin mover dinero.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-8 py-16" style="background:linear-gradient(135deg,#2A0B55,#6A00D4)">
+      <h2 class="mb-3 text-3xl font-bold text-white">Tu seguridad, en primer lugar</h2>
+      <p class="mb-10 max-w-2xl text-white/80">Protegemos tu sesión y cada operación desde el primer paso.</p>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="rounded-2xl bg-white/10 p-6 text-white ring-1 ring-white/20">
+          <i class="fa-solid fa-user-shield text-2xl" aria-hidden="true"></i>
+          <h3 class="mt-3 text-lg font-bold">Sesión protegida</h3>
+          <p class="mt-2 text-white/80">Tu acceso se guarda en una cookie que no puede leer el código de la página.</p>
+        </div>
+        <div class="rounded-2xl bg-white/10 p-6 text-white ring-1 ring-white/20">
+          <i class="fa-solid fa-key text-2xl" aria-hidden="true"></i>
+          <h3 class="mt-3 text-lg font-bold">Contraseñas cifradas</h3>
+          <p class="mt-2 text-white/80">Tu contraseña se guarda transformada, nunca en texto plano.</p>
+        </div>
+        <div class="rounded-2xl bg-white/10 p-6 text-white ring-1 ring-white/20">
+          <i class="fa-solid fa-shield-halved text-2xl" aria-hidden="true"></i>
+          <h3 class="mt-3 text-lg font-bold">Sin operaciones duplicadas</h3>
+          <p class="mt-2 text-white/80">Cada depósito, retiro o transferencia lleva una clave única, así que un doble clic no mueve el dinero dos veces.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-8 py-16">
+      <h2 class="mb-8 text-3xl font-bold" style="color:#2A0B55">Preguntas frecuentes</h2>
+      <div class="space-y-4">
+        <details class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-violet-100">
+          <summary class="cursor-pointer text-lg font-semibold">¿Cómo abro una cuenta?</summary>
+          <p class="mt-3 text-slate-600">Las cuentas las crea tu entidad. Cuando lo haga, recibirás tus datos de acceso.</p>
+        </details>
+        <details class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-violet-100">
+          <summary class="cursor-pointer text-lg font-semibold">¿Puedo transferir a otras personas?</summary>
+          <p class="mt-3 text-slate-600">Sí, a cuentas de otros clientes de tu entidad. Necesitas el número de cuenta del destinatario.</p>
+        </details>
+        <details class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-violet-100">
+          <summary class="cursor-pointer text-lg font-semibold">¿Cobran comisión?</summary>
+          <p class="mt-3 text-slate-600">Depende de la entidad. La comisión se calcula antes de confirmar y siempre la ves en el resumen.</p>
+        </details>
+        <details class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-violet-100">
+          <summary class="cursor-pointer text-lg font-semibold">¿Qué pasa si una operación falla?</summary>
+          <p class="mt-3 text-slate-600">Queda registrada como rechazada en tu historial y no se mueve dinero.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="mx-8 mb-16 rounded-3xl px-10 py-14 text-center" style="background:#EDE4FF">
+      <h2 class="text-3xl font-bold" style="color:#2A0B55">Empieza a gestionar tu dinero hoy</h2>
+      <p class="mx-auto mt-3 max-w-xl text-slate-600">Entra con los datos que te dio tu entidad y revisa tus cuentas en unos segundos.</p>
+      <a href="/login" class="mt-8 inline-block rounded-lg px-8 py-3.5 text-lg font-semibold text-white shadow-md" style="background:#6A00D4">Iniciar sesión</a>
+    </section>
+
+    <footer class="flex flex-wrap items-center justify-between gap-4 border-t border-violet-100 px-8 py-6">
+      <span class="flex items-center text-lg font-bold" style="color:#2A0B55"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" style="display:inline-block;vertical-align:middle;margin-right:8px"><path fill="#6A00D4" d="M12 0C12.8 7.2 16.8 11.2 24 12 16.8 12.8 12.8 16.8 12 24 11.2 16.8 7.2 12.8 0 12 7.2 11.2 11.2 7.2 12 0Z"/></svg>BankOS</span>
+      <span class="text-sm text-slate-500">© BankOS</span>
+    </footer>
+  </body>
+</html>

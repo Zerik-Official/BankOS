@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ text.title }}{% endblock %}
+{% block content %}
+  <div class="mx-auto max-w-md rounded-2xl bg-white p-6 shadow-md">
+    <h1 class="mb-5 text-2xl font-semibold">{{ text.title }}</h1>
+
+    {% if error %}
+      <div class="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-rose-800" role="alert">
+        {{ error }}
+      </div>
+    {% endif %}
+
+    {% if accounts %}
+      <form method="post" action="/{{ operation }}" class="space-y-4">
+        <input type="hidden" name="idempotency_key" value="{{ idempotency_key }}">
+
+        <div>
+          <label for="account_id" class="mb-1 block text-sm font-medium">{{ text.account_label }}</label>
+          <select id="account_id" name="account_id" required
+                  class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200">
+            {% for account in accounts %}
+              <option value="{{ account.id }}" {% if form.account_id == account.id|string %}selected{% endif %}>
+                {{ account.account_number }} · {{ account.balance | money }} {{ account.currency }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label for="amount" class="mb-1 block text-sm font-medium">Importe</label>
+          <input id="amount" name="amount" type="text" inputmode="decimal" required placeholder="0.00"
+                 value="{{ form.amount or '' }}"
+                 class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200">
+        </div>
+
+        <div>
+          <label for="description" class="mb-1 block text-sm font-medium">Descripción (opcional)</label>
+          <input id="description" name="description" type="text" maxlength="255"
+                 value="{{ form.description or '' }}"
+                 class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200">
+        </div>
+
+        <button type="submit"
+                class="w-full rounded-lg bg-indigo-700 px-4 py-2.5 font-medium text-white hover:bg-indigo-800">
+          {{ text.button }}
+        </button>
+      </form>
+    {% else %}
+      <p class="text-slate-500">No tienes cuentas activas para esta operación.</p>
+    {% endif %}
+  </div>
+{% endblock %}

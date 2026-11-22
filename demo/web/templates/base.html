@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}BankOS{% endblock %} · BankOS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+      #sidebar { width: 16rem; min-width: 16rem; transition: width .2s ease; }
+      #sidebar.collapsed { width: 4.5rem; min-width: 4.5rem; }
+      #sidebar.collapsed .nav-label, #sidebar.collapsed .brand-label { display: none; }
+      #sidebar.collapsed nav a { justify-content: center; padding-left: 0; padding-right: 0; }
+      #sidebar.collapsed .sidebar-foot { display: none; }
+      #sidebar .active-nav { background: #EDE4FF; color: #6A00D4; }
+    </style>
+  </head>
+  <body class="min-h-screen" style="background:#F6F2FF;color:#2A0B55;font-family:system-ui,Segoe UI,Roboto,sans-serif">
+    {% if principal %}
+      <header class="flex items-center justify-between border-b border-violet-100 bg-white px-6 py-3">
+        <div class="flex items-center gap-3">
+          <button type="button" id="sidebar-toggle" class="rounded-lg p-2 hover:bg-violet-50" aria-label="Mostrar u ocultar el menú" aria-controls="sidebar">
+            <i class="fa-solid fa-bars text-lg" style="color:#6A00D4" aria-hidden="true"></i>
+          </button>
+        <a href="/" class="flex items-center gap-2 text-xl font-bold" style="color:#2A0B55">
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:inline-block;vertical-align:middle;margin-right:6px"><path fill="#6A00D4" d="M12 0C12.8 7.2 16.8 11.2 24 12 16.8 12.8 12.8 16.8 12 24 11.2 16.8 7.2 12.8 0 12 7.2 11.2 11.2 7.2 12 0Z"/></svg>BankOS
+        </a>
+        </div>
+        <div class="flex items-center gap-4 text-sm">
+          <span class="hidden items-center gap-2 font-semibold sm:flex">
+            <i class="fa-solid fa-circle-user text-xl" style="color:#6A00D4" aria-hidden="true"></i>{{ principal.full_name }}
+          </span>
+          <form method="post" action="/logout">
+            <button type="submit" class="flex items-center gap-2 font-semibold" style="color:#6A00D4">
+              <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>Cerrar sesión
+            </button>
+          </form>
+        </div>
+      </header>
+      <div class="flex" style="min-height:calc(100vh - 61px)">
+        <aside id="sidebar" class="sticky hidden shrink-0 flex-col justify-between overflow-y-auto border-r border-violet-100 bg-white py-6 md:flex" style="top:61px;height:calc(100vh - 61px)">
+          <nav class="flex flex-col gap-1 px-3 text-base font-medium" aria-label="Principal">
+            <a href="/" class="flex items-center gap-3 whitespace-nowrap rounded-xl px-4 py-3 {{ 'active-nav' if request.url.path == '/' else 'hover:bg-violet-50' }}" title="Inicio"><i class="fa-solid fa-house w-5 text-center" aria-hidden="true"></i><span class="nav-label">Inicio</span></a>
+            <a href="/transfer" class="flex items-center gap-3 whitespace-nowrap rounded-xl px-4 py-3 {{ 'active-nav' if request.url.path == '/transfer' else 'hover:bg-violet-50' }}" title="Transferencias"><i class="fa-solid fa-right-left w-5 text-center" aria-hidden="true"></i><span class="nav-label">Transferencias</span></a>
+            <a href="/deposit" class="flex items-center gap-3 whitespace-nowrap rounded-xl px-4 py-3 {{ 'active-nav' if request.url.path == '/deposit' else 'hover:bg-violet-50' }}" title="Depositar"><i class="fa-solid fa-circle-plus w-5 text-center" aria-hidden="true"></i><span class="nav-label">Depositar</span></a>
+            <a href="/withdraw" class="flex items-center gap-3 whitespace-nowrap rounded-xl px-4 py-3 {{ 'active-nav' if request.url.path == '/withdraw' else 'hover:bg-violet-50' }}" title="Retirar"><i class="fa-solid fa-circle-minus w-5 text-center" aria-hidden="true"></i><span class="nav-label">Retirar</span></a>
+            <a href="/transactions" class="flex items-center gap-3 whitespace-nowrap rounded-xl px-4 py-3 {{ 'active-nav' if request.url.path == '/transactions' else 'hover:bg-violet-50' }}" title="Movimientos"><i class="fa-solid fa-receipt w-5 text-center" aria-hidden="true"></i><span class="nav-label">Movimientos</span></a>
+            <a href="/profile" class="flex items-center gap-3 whitespace-nowrap rounded-xl px-4 py-3 {{ 'active-nav' if request.url.path == '/profile' else 'hover:bg-violet-50' }}" title="Perfil"><i class="fa-solid fa-user w-5 text-center" aria-hidden="true"></i><span class="nav-label">Perfil</span></a>
+          </nav>
+          <div class="sidebar-foot px-5 text-xs text-slate-500">BankOS</div>
+        </aside>
+        <div class="min-w-0 flex-1">
+          <nav class="flex gap-4 overflow-x-auto border-b border-violet-100 bg-white px-4 py-2 text-sm font-medium md:hidden" aria-label="Principal móvil">
+            <a href="/">Inicio</a><a href="/deposit">Depositar</a><a href="/withdraw">Retirar</a><a href="/transfer">Transferir</a><a href="/transactions">Movimientos</a><a href="/profile">Perfil</a>
+          </nav>
+    {% endif %}
+          <main class="{{ 'mx-auto max-w-6xl px-6 py-6' if principal else 'mx-auto max-w-5xl px-4 py-6' }}">
+            {% if message %}
+              <div class="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-800" role="status">
+                <i class="fa-solid fa-circle-check mr-2" aria-hidden="true"></i>{{ message }}
+              </div>
+            {% endif %}
+            {% block content %}{% endblock %}
+          </main>
+    {% if principal %}
+        </div>
+      </div>
+    {% endif %}
+    <script>
+      (function () {
+        var sidebar = document.getElementById('sidebar');
+        var button = document.getElementById('sidebar-toggle');
+        if (!sidebar || !button) { return; }
+        var key = 'bankos-sidebar';
+        try {
+          if (window.localStorage.getItem(key) === 'collapsed') { sidebar.classList.add('collapsed'); }
+        } catch (e) { /* storage unavailable: keep the default state */ }
+        button.addEventListener('click', function () {
+          sidebar.classList.toggle('collapsed');
+          try {
+            window.localStorage.setItem(key, sidebar.classList.contains('collapsed') ? 'collapsed' : 'expanded');
+          } catch (e) { /* storage unavailable: nothing to save */ }
+        });
+      })();
+    </script>
+  </body>
+</html>
